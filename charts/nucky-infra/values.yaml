@@ -1,0 +1,9 @@
+# Default values for nucky-infra.
+# This is a YAML-formatted file.
+
+# argo-cd Overrides
+argo-cd:
+  fullnameOverride: "argocd"
+  configs:
+    params:
+      server.insecure: true
