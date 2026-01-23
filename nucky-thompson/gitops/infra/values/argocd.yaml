@@ -1,0 +1,7 @@
+# Self-managed argo-cd Overrides
+configs:
+  params:
+    # Planning to use tailscale tls termination so we don't need to force to https
+    server.insecure: true
+    # Let's Encrypt by way of Tailscale is handling the cert
+    tls.create: false

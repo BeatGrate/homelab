@@ -1,0 +1,5 @@
+operatorConfig:
+  hostname: "nt-tailscale-operator"
+apiServerProxyConfig:
+  allowImpersonation: "true"
+  mode: "true"

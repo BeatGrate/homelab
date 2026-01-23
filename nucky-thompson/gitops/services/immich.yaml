@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: immich
+  namespace: argocd
+spec:
+  project: default
+  sources:
+  - repoURL: oci://ghcr.io/immich-app/immich-charts/immich
+    path: .
+    targetRevision: 0.10.3 # Recommended: Check for the latest version
+    helm:
+      valueFiles:
+      - $values/nucky-thompson/gitops/services/values/immich.yaml
+  - repoURL:  https://github.com/BeatGrate/homelab.git
+    targetRevision: main
+    ref: values
+  - repoURL:  https://github.com/BeatGrate/homelab.git
+    targetRevision: main
+    path: nucky-thompson/gitops/services/immich-storage
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: immich
+  syncPolicy:
+    automated:
+      prune: true # Allows ArgoCD to delete resources that are no longer in Git
+      selfHeal: true # Allows ArgoCD to sync changes if the live state drifts from Git
+    syncOptions:
+      # Automatically create the destination namespace if it doesn't exist
+      - CreateNamespace=true
+
