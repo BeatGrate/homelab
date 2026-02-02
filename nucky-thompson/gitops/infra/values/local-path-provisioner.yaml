@@ -1,0 +1,32 @@
+namespaceOverride: "local-path-storage"
+
+# Define multiple storageClasses
+storageClassConfigs:
+  # Uses the nvme
+  local-path-nvme:
+    storageClass:
+      # Required
+      create: true
+      name: local-path-nvme
+      defaultClass: true
+      # Required or you will get no node specified errors
+      volumeBindingMode: WaitForFirstConsumer
+      allowVolumeExpansion: true
+    nodePathMap:
+      - node: DEFAULT_PATH_FOR_NON_LISTED_NODES
+        paths:
+          - /var/mnt/local-nvme
+  # Uses sata ssd
+  local-path-sata:
+    storageClass:
+      # Required
+      create: true
+      name: local-path-sata
+      # Required or you will get no node specified errors
+      volumeBindingMode: WaitForFirstConsumer
+      allowVolumeExpansion: true
+    nodePathMap:
+      - node: DEFAULT_PATH_FOR_NON_LISTED_NODES
+        paths:
+          - /var/mnt/local-sata
+

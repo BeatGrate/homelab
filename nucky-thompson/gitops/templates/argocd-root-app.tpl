@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: <CHANGEME>
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+    - repoURL: https://github.com/BeatGrate/homelab.git
+      path: nucky-thompson/gitops/<CHANGEME>
+      targetRevision: main
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true # Allows ArgoCD to delete resources that are no longer in Git
+      selfHeal: true # Allows ArgoCD to sync changes if the live state drifts from Git
+    syncOptions:
+      # Automatically create the destination namespace if it doesn't exist
+      - CreateNamespace=true
