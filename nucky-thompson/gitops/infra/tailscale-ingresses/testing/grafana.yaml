@@ -6,7 +6,7 @@ metadata:
 spec:
   defaultBackend:
     service:
-      name: kube-prometheus-kube-prome-grafana
+      name: kube-prometheus-grafana
       port:
         number: 80
   ingressClassName: tailscale
