@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kube-prometheus-stack
+  name: kube-prometheus
   namespace: argocd
 spec:
   project: default
@@ -15,6 +15,9 @@ spec:
   - repoURL:  https://github.com/BeatGrate/homelab.git
     targetRevision: initial-test
     ref: values
+  - repoURL: https://github.com/BeatGrate/homelab.git
+    path: nucky-thompson/gitops/services/tailscale-ingresses
+    targetRevision: intial-test
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
@@ -22,7 +25,11 @@ spec:
     automated:
       prune: true # Allows ArgoCD to delete resources that are no longer in Git
       selfHeal: true # Allows ArgoCD to sync changes if the live state drifts from Git
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged
     syncOptions:
       # Automatically create the destination namespace if it doesn't exist
       - CreateNamespace=true
+      - ServerSideApply=true
 
